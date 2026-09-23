@@ -83,6 +83,7 @@ void displayFoods(const Restaurant &r) {
     }
 
     for (int i = 0; i < r.foodCount; i++) {
+
         cout << "\nMon an " << i + 1 << endl;
         cout << "Ma mon: " << r.foods[i].id << endl;
         cout << "Ten mon: " << r.foods[i].name << endl;
@@ -101,13 +102,21 @@ void searchFood(const Restaurant &r) {
     bool found = false;
 
     for (int i = 0; i < r.foodCount; i++) {
+
         if (r.foods[i].id == keyword ||
             r.foods[i].name == keyword) {
 
-            cout << "\nMa mon: " << r.foods[i].id << endl;
-            cout << "Ten mon: " << r.foods[i].name << endl;
-            cout << "Don gia: " << r.foods[i].price << endl;
-            cout << "So luong: " << r.foods[i].quantity << endl;
+            cout << "\nMa mon: "
+                 << r.foods[i].id << endl;
+
+            cout << "Ten mon: "
+                 << r.foods[i].name << endl;
+
+            cout << "Don gia: "
+                 << r.foods[i].price << endl;
+
+            cout << "So luong: "
+                 << r.foods[i].quantity << endl;
 
             found = true;
         }
@@ -138,6 +147,7 @@ void updateFood(Restaurant &r) {
             cin.ignore();
 
             cout << "Cap nhat thanh cong!\n";
+
             return;
         }
     }
@@ -170,12 +180,14 @@ void createOrder(Restaurant &r) {
     getline(cin, o.address);
 
     cout << "Nhap ma mon: ";
+
     string foodId;
     getline(cin, foodId);
 
     int foodIndex = -1;
 
     for (int i = 0; i < r.foodCount; i++) {
+
         if (r.foods[i].id == foodId) {
             foodIndex = i;
             break;
@@ -202,7 +214,9 @@ void createOrder(Restaurant &r) {
     }
 
     o.food = r.foods[foodIndex];
+
     o.food.quantity = o.quantity;
+
     o.status = "Cho xu ly";
 
     r.foods[foodIndex].quantity -= o.quantity;
@@ -224,6 +238,7 @@ void checkFood(const Restaurant &r) {
     int index = -1;
 
     for (int i = 0; i < r.foodCount; i++) {
+
         if (r.foods[i].id == id) {
             index = i;
             break;
@@ -260,6 +275,7 @@ void showOrderTotal(const Restaurant &r) {
     string id;
 
     cout << "\n===== TINH TONG TIEN DON HANG =====\n";
+
     cout << "Nhap ma don hang: ";
     getline(cin, id);
 
@@ -267,7 +283,7 @@ void showOrderTotal(const Restaurant &r) {
 
         if (r.orders[i].id == id) {
 
-            cout << "Ma don hang: "
+            cout << "\nMa don hang: "
                  << r.orders[i].id << endl;
 
             cout << "Ten khach hang: "
@@ -335,6 +351,7 @@ void searchOrder(const Restaurant &r) {
     string id;
 
     cout << "\n===== TIM DON HANG THEO MA =====\n";
+
     cout << "Nhap ma don hang: ";
     getline(cin, id);
 
@@ -387,8 +404,7 @@ void updateOrderStatus(Restaurant &r) {
             cout << "\nTrang thai hien tai: "
                  << r.orders[i].status << endl;
 
-            cout << "\nChon trang thai moi:\n";
-            cout << "1. Cho xu ly\n";
+            cout << "\n1. Cho xu ly\n";
             cout << "2. Dang giao\n";
             cout << "3. Da giao\n";
             cout << "4. Da huy\n";
@@ -416,7 +432,8 @@ void updateOrderStatus(Restaurant &r) {
                 return;
             }
 
-            cout << "Cap nhat trang thai thanh cong!\n";
+            cout << "Cap nhat thanh cong!\n";
+
             cout << "Trang thai moi: "
                  << r.orders[i].status << endl;
 
@@ -425,6 +442,30 @@ void updateOrderStatus(Restaurant &r) {
     }
 
     cout << "Khong tim thay don hang!\n";
+}
+
+void calculateRevenue(const Restaurant &r) {
+    double revenue = 0;
+
+    int completedOrders = 0;
+
+    cout << "\n===== THONG KE DOANH THU =====\n";
+
+    for (int i = 0; i < r.orderCount; i++) {
+
+        if (r.orders[i].status == "Da giao") {
+
+            revenue += calculateTotal(r.orders[i]);
+
+            completedOrders++;
+        }
+    }
+
+    cout << "So don hang da hoan thanh: "
+         << completedOrders << endl;
+
+    cout << "Tong doanh thu: "
+         << revenue << endl;
 }
 
 int main() {
@@ -451,6 +492,8 @@ int main() {
     searchOrder(restaurant);
 
     updateOrderStatus(restaurant);
+
+    calculateRevenue(restaurant);
 
     return 0;
 }
