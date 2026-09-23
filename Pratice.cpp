@@ -46,11 +46,6 @@ void inputRestaurant(Restaurant &r) {
 }
 
 void addFood(Restaurant &r) {
-    if (r.foodCount >= 100) {
-        cout << "Danh sach mon an da day!\n";
-        return;
-    }
-
     Food &f = r.foods[r.foodCount];
 
     cout << "\n===== THEM MON AN =====\n";
@@ -104,8 +99,7 @@ void searchFood(const Restaurant &r) {
         if (r.foods[i].id == keyword ||
             r.foods[i].name == keyword) {
 
-            cout << "\nTim thay mon an:\n";
-            cout << "Ma mon: " << r.foods[i].id << endl;
+            cout << "\nMa mon: " << r.foods[i].id << endl;
             cout << "Ten mon: " << r.foods[i].name << endl;
             cout << "Don gia: " << r.foods[i].price << endl;
             cout << "So luong: " << r.foods[i].quantity << endl;
@@ -127,7 +121,6 @@ void updateFood(Restaurant &r) {
     getline(cin, id);
 
     for (int i = 0; i < r.foodCount; i++) {
-
         if (r.foods[i].id == id) {
 
             cout << "Nhap don gia moi: ";
@@ -138,13 +131,104 @@ void updateFood(Restaurant &r) {
 
             cin.ignore();
 
-            cout << "Cap nhat mon an thanh cong!\n";
-
+            cout << "Cap nhat thanh cong!\n";
             return;
         }
     }
 
     cout << "Khong tim thay mon an!\n";
+}
+
+void createOrder(Restaurant &r) {
+    if (r.foodCount == 0) {
+        cout << "Chua co mon an de dat hang!\n";
+        return;
+    }
+
+    Order &o = r.orders[r.orderCount];
+
+    cout << "\n===== TAO DON HANG =====\n";
+
+    cout << "Nhap ma don hang: ";
+    getline(cin, o.id);
+
+    cout << "Nhap ten khach hang: ";
+    getline(cin, o.customerName);
+
+    cout << "Nhap dia chi giao hang: ";
+    getline(cin, o.address);
+
+    cout << "Nhap ma mon: ";
+    string foodId;
+    getline(cin, foodId);
+
+    int foodIndex = -1;
+
+    for (int i = 0; i < r.foodCount; i++) {
+        if (r.foods[i].id == foodId) {
+            foodIndex = i;
+            break;
+        }
+    }
+
+    if (foodIndex == -1) {
+        cout << "Mon an khong ton tai!\n";
+        return;
+    }
+
+    cout << "Nhap so luong: ";
+    cin >> o.quantity;
+    cin.ignore();
+
+    if (o.quantity > r.foods[foodIndex].quantity) {
+        cout << "Khong du so luong mon an!\n";
+        return;
+    }
+
+    o.food = r.foods[foodIndex];
+    o.food.quantity = o.quantity;
+    o.status = "Cho xu ly";
+
+    r.foods[foodIndex].quantity -= o.quantity;
+
+    r.orderCount++;
+
+    cout << "Tao don hang thanh cong!\n";
+}
+
+void checkFood(Restaurant &r) {
+    string id;
+    int quantity;
+
+    cout << "\n===== KIEM TRA MON AN =====\n";
+
+    cout << "Nhap ma mon: ";
+    getline(cin, id);
+
+    int index = -1;
+
+    for (int i = 0; i < r.foodCount; i++) {
+        if (r.foods[i].id == id) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index == -1) {
+        cout << "Mon an khong ton tai!\n";
+        return;
+    }
+
+    cout << "Nhap so luong can kiem tra: ";
+    cin >> quantity;
+    cin.ignore();
+
+    if (r.foods[index].quantity >= quantity) {
+        cout << "Mon an ton tai va du so luong!\n";
+    }
+    else {
+        cout << "Mon an ton tai nhung khong du so luong!\n";
+    }
 }
 
 int main() {
@@ -160,9 +244,9 @@ int main() {
 
     updateFood(restaurant);
 
-    cout << "\n===== DANH SACH SAU KHI CAP NHAT =====\n";
+    createOrder(restaurant);
 
-    displayFoods(restaurant);
+    checkFood(restaurant);
 
     return 0;
 }
