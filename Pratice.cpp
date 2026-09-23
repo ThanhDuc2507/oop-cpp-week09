@@ -119,6 +119,34 @@ void searchFood(const Restaurant &r) {
     }
 }
 
+void updateFood(Restaurant &r) {
+    string id;
+
+    cout << "\n===== CAP NHAT MON AN =====\n";
+    cout << "Nhap ma mon can cap nhat: ";
+    getline(cin, id);
+
+    for (int i = 0; i < r.foodCount; i++) {
+
+        if (r.foods[i].id == id) {
+
+            cout << "Nhap don gia moi: ";
+            cin >> r.foods[i].price;
+
+            cout << "Nhap so luong moi: ";
+            cin >> r.foods[i].quantity;
+
+            cin.ignore();
+
+            cout << "Cap nhat mon an thanh cong!\n";
+
+            return;
+        }
+    }
+
+    cout << "Khong tim thay mon an!\n";
+}
+
 int main() {
     Restaurant restaurant;
 
@@ -129,6 +157,12 @@ int main() {
     displayFoods(restaurant);
 
     searchFood(restaurant);
+
+    updateFood(restaurant);
+
+    cout << "\n===== DANH SACH SAU KHI CAP NHAT =====\n";
+
+    displayFoods(restaurant);
 
     return 0;
 }
