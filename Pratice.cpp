@@ -231,6 +231,41 @@ void checkFood(Restaurant &r) {
     }
 }
 
+double calculateTotal(const Order &o) {
+    return o.food.price * o.quantity;
+}
+
+void showOrderTotal(const Restaurant &r) {
+    if (r.orderCount == 0) {
+        cout << "Chua co don hang nao!\n";
+        return;
+    }
+
+    string id;
+
+    cout << "\n===== TINH TONG TIEN DON HANG =====\n";
+    cout << "Nhap ma don hang: ";
+    getline(cin, id);
+
+    for (int i = 0; i < r.orderCount; i++) {
+
+        if (r.orders[i].id == id) {
+
+            double total = calculateTotal(r.orders[i]);
+
+            cout << "Ma don hang: " << r.orders[i].id << endl;
+            cout << "Ten mon: " << r.orders[i].food.name << endl;
+            cout << "Don gia: " << r.orders[i].food.price << endl;
+            cout << "So luong: " << r.orders[i].quantity << endl;
+            cout << "Tong tien: " << total << endl;
+
+            return;
+        }
+    }
+
+    cout << "Khong tim thay don hang!\n";
+}
+
 int main() {
     Restaurant restaurant;
 
@@ -247,6 +282,8 @@ int main() {
     createOrder(restaurant);
 
     checkFood(restaurant);
+
+    showOrderTotal(restaurant);
 
     return 0;
 }
