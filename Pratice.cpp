@@ -126,6 +126,7 @@ void updateFood(Restaurant &r) {
     getline(cin, id);
 
     for (int i = 0; i < r.foodCount; i++) {
+
         if (r.foods[i].id == id) {
 
             cout << "Nhap don gia moi: ";
@@ -263,9 +264,10 @@ void showOrderTotal(const Restaurant &r) {
     getline(cin, id);
 
     for (int i = 0; i < r.orderCount; i++) {
+
         if (r.orders[i].id == id) {
 
-            cout << "\nMa don hang: "
+            cout << "Ma don hang: "
                  << r.orders[i].id << endl;
 
             cout << "Ten khach hang: "
@@ -341,6 +343,7 @@ void searchOrder(const Restaurant &r) {
         if (r.orders[i].id == id) {
 
             cout << "\nTim thay don hang!\n";
+
             cout << "Ma don hang: "
                  << r.orders[i].id << endl;
 
@@ -360,6 +363,61 @@ void searchOrder(const Restaurant &r) {
                  << calculateTotal(r.orders[i]) << endl;
 
             cout << "Trang thai: "
+                 << r.orders[i].status << endl;
+
+            return;
+        }
+    }
+
+    cout << "Khong tim thay don hang!\n";
+}
+
+void updateOrderStatus(Restaurant &r) {
+    string id;
+
+    cout << "\n===== CAP NHAT TRANG THAI DON HANG =====\n";
+
+    cout << "Nhap ma don hang: ";
+    getline(cin, id);
+
+    for (int i = 0; i < r.orderCount; i++) {
+
+        if (r.orders[i].id == id) {
+
+            cout << "\nTrang thai hien tai: "
+                 << r.orders[i].status << endl;
+
+            cout << "\nChon trang thai moi:\n";
+            cout << "1. Cho xu ly\n";
+            cout << "2. Dang giao\n";
+            cout << "3. Da giao\n";
+            cout << "4. Da huy\n";
+
+            int choice;
+
+            cout << "Nhap lua chon: ";
+            cin >> choice;
+            cin.ignore();
+
+            if (choice == 1) {
+                r.orders[i].status = "Cho xu ly";
+            }
+            else if (choice == 2) {
+                r.orders[i].status = "Dang giao";
+            }
+            else if (choice == 3) {
+                r.orders[i].status = "Da giao";
+            }
+            else if (choice == 4) {
+                r.orders[i].status = "Da huy";
+            }
+            else {
+                cout << "Lua chon khong hop le!\n";
+                return;
+            }
+
+            cout << "Cap nhat trang thai thanh cong!\n";
+            cout << "Trang thai moi: "
                  << r.orders[i].status << endl;
 
             return;
@@ -391,6 +449,8 @@ int main() {
     displayOrders(restaurant);
 
     searchOrder(restaurant);
+
+    updateOrderStatus(restaurant);
 
     return 0;
 }
