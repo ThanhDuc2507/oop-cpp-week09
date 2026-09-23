@@ -1,38 +1,66 @@
 #include <iostream>
+#include <string>
+
 using namespace std;
 
-void printNames() {
-    cout << "Huynh Nguyen Thanh Duc" << endl;
-}
+struct Food {
+    string id;
+    string name;
+    double price;
+    int quantity;
+};
 
-void solveLinearEquation(double a, double b) {
-    if (a == 0) {
-        if (b == 0) {
-            cout << "Equation has infinitely many solutions (Vo so nghiem)." << endl;
-        } else {
-            cout << "Equation has no solution (Vo nghiem)." << endl;
-        }
-    } else {
-        double x = -b / a;
-        cout << "Equation has one root x = " << x << endl;
-    }
+struct OrderItem {
+    string foodId;
+    string foodName;
+    double price;
+    int quantity;
+};
+
+struct Order {
+    string id;
+    string customerName;
+    string address;
+    OrderItem items[50];
+    int itemCount;
+    string status;
+};
+
+struct Restaurant {
+    string name;
+    string address;
+    string phone;
+
+    Food foods[100];
+    int foodCount;
+
+    Order orders[100];
+    int orderCount;
+};
+
+void inputRestaurant(Restaurant &r) {
+    cout << "Nhap ten cua hang: ";
+    getline(cin, r.name);
+
+    cout << "Nhap dia chi: ";
+    getline(cin, r.address);
+
+    cout << "Nhap so dien thoai: ";
+    getline(cin, r.phone);
+
+    r.foodCount = 0;
+    r.orderCount = 0;
 }
 
 int main() {
-    // Test Exercise 1
-    cout << "--- Exercise 1 ---" << endl;
-    printNames();
-    cout << endl;
+    Restaurant restaurant;
 
-    // Test Exercise 2
-    cout << "--- Exercise 2 ---" << endl;
-    double a, b;
-    cout << "Enter a: ";
-    cin >> a;
-    cout << "Enter b: ";
-    cin >> b;
+    inputRestaurant(restaurant);
 
-    solveLinearEquation(a, b);
+    cout << "\nThong tin cua hang:\n";
+    cout << "Ten: " << restaurant.name << endl;
+    cout << "Dia chi: " << restaurant.address << endl;
+    cout << "So dien thoai: " << restaurant.phone << endl;
 
     return 0;
 }
