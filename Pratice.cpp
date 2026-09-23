@@ -91,6 +91,34 @@ void displayFoods(const Restaurant &r) {
     }
 }
 
+void searchFood(const Restaurant &r) {
+    string keyword;
+
+    cout << "\n===== TIM MON AN =====\n";
+    cout << "Nhap ma hoac ten mon can tim: ";
+    getline(cin, keyword);
+
+    bool found = false;
+
+    for (int i = 0; i < r.foodCount; i++) {
+        if (r.foods[i].id == keyword ||
+            r.foods[i].name == keyword) {
+
+            cout << "\nTim thay mon an:\n";
+            cout << "Ma mon: " << r.foods[i].id << endl;
+            cout << "Ten mon: " << r.foods[i].name << endl;
+            cout << "Don gia: " << r.foods[i].price << endl;
+            cout << "So luong: " << r.foods[i].quantity << endl;
+
+            found = true;
+        }
+    }
+
+    if (!found) {
+        cout << "Khong tim thay mon an!\n";
+    }
+}
+
 int main() {
     Restaurant restaurant;
 
@@ -99,6 +127,8 @@ int main() {
     addFood(restaurant);
 
     displayFoods(restaurant);
+
+    searchFood(restaurant);
 
     return 0;
 }
